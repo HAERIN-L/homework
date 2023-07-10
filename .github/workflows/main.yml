@@ -14,19 +14,19 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
-        
-      - name: Create extra-file.txt
-        run: |
-          echo howdy > extra-file.txt
-          echo "Python ${{ matrix.python-version }}" >> extra-file.txt
 
-      - uses: actions/upload-artifact@v3
+      - name: Save output to file
+        run: |
+          python -c "import sys; print(sys.version)" > output.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Python ${{ matrix.python-version }} artifacts
-          path: extra-file.txt
+          name: Python ${{ matrix.python-version }} output
+          path: output.txt
